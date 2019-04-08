@@ -1,4 +1,4 @@
-import { preloadImage } from '../utils'; 
+import { preloadImage } from '../utils';
 
 class CanvasWithSelectArea {
   constructor(canvas) {
@@ -22,7 +22,7 @@ class CanvasWithSelectArea {
 
   onMouseMove(context) {
     const _this = context;
-    return function(e) {
+    return function (e) {
       _this.mouseX = e.layerX;
       _this.mouseY = e.layerY;
       if (_this.isMouseDown) {
@@ -40,14 +40,14 @@ class CanvasWithSelectArea {
 
   onMouseUp(context) {
     const _this = context;
-    return function(e) {
+    return function (e) {
       _this.isMouseDown = false;
     }
   }
 
   onMouseDown(context) {
     const _this = context;
-    return function(e) {
+    return function (e) {
       _this.isMouseDown = true;
       _this.mouseStartX = e.layerX;
       _this.mouseStartY = e.layerY;
@@ -64,13 +64,21 @@ class CanvasWithImg {
   drawImage(url) {
     preloadImage(url, img => {
       this.clear();
-      this.ctx.drawImage(img, 0, 0);
-      this.outputPixelsColor();
+      const hRatio = this.canvas.width / img.width;
+      // var vRatio =  canvas.height / img.height  ;
+      // var ratio  = Math.min ( hRatio, vRatio );
+      const ratio = hRatio;
+      const centerShift_x = (this.canvas.width - img.width * ratio) / 2;
+      const centerShift_y = (this.canvas.height - img.height * ratio) / 2;
+      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+      this.ctx.drawImage(img, 0, 0, img.width, img.height,
+        centerShift_x, centerShift_y, img.width * ratio, img.height * ratio);
     });
   }
 
+
+
   outputPixelsColor() {
-    debugger;
     for (let w = 0; w < 10; w++) {
       for (let h = this.canvas.height; h > this.canvas.height - 10; h--) {
         const res = this.ctx.getImageData(w, h, 1, 1).data;
@@ -84,7 +92,7 @@ class CanvasWithImg {
   }
 }
 
-export { 
+export {
   CanvasWithSelectArea,
   CanvasWithImg,
- };
+};

@@ -1,10 +1,14 @@
 import React, { Component, Fragment } from 'react'
+import PropTypes from 'prop-types';
 
 import { CanvasWithSelectArea, CanvasWithImg } from './canvasController';
+import Devider from '../Devider';
+
+import './Canvas.css';
 
 class Canvas extends Component {
   state = {
-    imgToDraw: null,
+
   }
 
   componentDidMount() {
@@ -15,9 +19,9 @@ class Canvas extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    // if (prevProps.img.name !== this.props.img.name) {
+    if (prevProps.img.name !== this.props.img.name) {
       this.readImg(this.props.img);
-    // }
+    }
   }
 
   readImg(img) {
@@ -33,24 +37,29 @@ class Canvas extends Component {
   }
 
   render() {
-    const { width, height } = this.props;
+    const { width, height, deviderPosition: dpPercents } = this.props;
     const { canvasBG } = this.state;
+
+    const deviderPosition = 500 * dpPercents / 100;
 
     return (
       <Fragment>
-        <canvas
-          ref={(node) => { this.editableCanvas = node; }}
-          style={{
-            background: 'white',
-            marginTop: '100px',
-          }}
-          width={width}
-          height={height}
-        />
+        <div className="canvas-area">
+          <canvas
+            ref={(node) => { this.editableCanvas = node; }}
+            className="canvas-with-controls"
+            style={{
+              backgroundImage: `url(${canvasBG})`,
+              position: 'relative'
+            }}
+            width={width}
+            height={height}
+          />
+          <Devider deviderPosition={deviderPosition}/>
+        </div>
         <canvas
           ref={(node) => { this.resultedCanvas = node; }}
           style={{
-            background: canvasBG,
             marginTop: '100px',
             display: 'none',
           }}

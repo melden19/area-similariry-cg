@@ -5,5 +5,3 @@ export const preloadImage = (url, callback) => {
   }
   tempImg.src = url;
 }
-
-// export { preloadImage };

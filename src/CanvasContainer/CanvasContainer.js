@@ -2,12 +2,14 @@ import React, { Component } from 'react';
 
 import Canvas from '../Canvas';
 import Controls from '../Controls';
+import Devider from '../Devider';
 
 import './CanvasContainer.css';
 
 class CanvasContainer extends Component {
   state = {
-    uploadedImg: null,
+    uploadedImg: {},
+    deviderPosition: 50,
   }
 
   onFileUpload = e => {
@@ -17,17 +19,25 @@ class CanvasContainer extends Component {
     });
   }
 
+  deviderHandler = e => {
+    this.setState({
+      deviderPosition: e.target.value,
+    });
+  }
+
   render() {
-    const { uploadedImg } = this.state;
+    const { uploadedImg, deviderPosition } = this.state;
     return (
       <div className="canvas-wrapper">
         <Canvas
           height="400"
           width="500"
           img={uploadedImg}
+          deviderPosition={deviderPosition}
         />
         <Controls
           onUpload={this.onFileUpload}
+          deviderHandler={this.deviderHandler}
         />
       </div>
     )

@@ -1,0 +1,10 @@
+.canvas-with-controls {
+  background-size: 100%;
+  background-repeat:   no-repeat;
+  background-position: center center;
+}
+
+.canvas-area {
+  position: relative;
+  margin-top: 100px;
+}
